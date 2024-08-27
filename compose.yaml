@@ -1,0 +1,27 @@
+include:
+  - proxy.yaml
+
+services:
+
+  web:
+    image: cr.yandex/crplol5ff05pncshl4bv/app:1.0.1
+    networks:
+      backend:
+        ipv4_address: 172.20.0.5
+    environment:
+      DB_HOST: "shvirtd-example-python-db-1"
+      DB_NAME: "virtd"
+      DB_USER: "app"
+      DB_PASSWORD: "QwErTy1234"
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: mysql:8
+    networks:
+      backend:
+        ipv4_address: 172.20.0.10
+    env_file:
+      - .env
+    restart: always
